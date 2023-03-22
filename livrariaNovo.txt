@@ -1,0 +1,317 @@
+Algoritmo "Livraria"
+//  
+//  
+const QuantidadeMaxima = 100
+
+tipo
+   Livro = registro
+      CodigoLivro: caractere
+      Titulo: caractere
+      Autor: caractere
+      Ano: caractere
+      Genero: caractere
+      Editora: caractere
+   fimregistro
+
+var
+   livros: vetor[1..QuantidadeMaxima] de Livro
+   opcao: inteiro
+   enter: caractere
+   i: inteiro
+   posicao: inteiro
+   CodigoLivro: inteiro
+
+
+//GERAR CÓDIGO
+
+funcao GerarCodigo() : caractere
+var
+  CodigoAleatorio: caractere
+inicio
+  CodigoLivro := CodigoLivro + 1
+  se (CodigoLivro < 100) entao
+   CodigoAleatorio := numpcarac(CodigoLivro)
+  senao
+   CodigoAleatorio := numpcarac(CodigoLivro)
+  fimse
+  retorne CodigoAleatorio
+fimfuncao
+
+
+//JÁ EXISTE
+funcao LivroJaExiste(CodigoLivro: caractere): inteiro
+var
+   posicaoLivro: inteiro
+inicio
+   posicaoLivro := 0
+
+   para i de 1 ate posicao faca
+      se (livros[i].CodigoLivro = CodigoLivro) entao
+         posicaoLivro := i
+      fimse
+   fimpara
+   retorne posicaoLivro
+fimfuncao
+
+//PULAR LINHAS
+procedimento PularLinhas (n: inteiro)
+var
+   i : inteiro
+inicio
+   para i de 1 ate 3 faca
+      escreval("")
+   fimpara
+fimprocedimento
+
+//CABEÇALHO
+procedimento Cabecalho()
+inicio
+   escreval(" *****************************************")
+   escreval(" *          LIVRARIA CULTURAL            *")
+   escreval(" *****************************************")
+   PularLinhas (3)
+fimprocedimento
+
+//CADASTRO
+procedimento CadastrarLivro()
+var
+   CodigoGerado: caractere
+   CadastroNovoLivro: caractere
+inicio
+   repita
+      posicao := posicao + 1
+      repita
+         CodigoGerado  := GerarCodigo()
+      ate LivroJaExiste(CodigoGerado) = 0
+
+      livros[posicao].CodigoLivro := CodigoGerado
+      limpatela()
+      Cabecalho()
+      escreval("Matrícula gerada: ", livros[posicao].CodigoLivro)
+      escreva("Informe o título do livro: ")
+      leia(livros[posicao].Titulo)
+      escreva("Informe o Autor: ")
+      leia(livros[posicao].Autor)
+      escreva("Informe o ano de publicação: ")
+      leia(livros[posicao].Ano)
+      escreva("Informe o genero: ")
+      leia(livros[posicao].Genero)
+      escreva("Informe a editora: ")
+      leia(livros[posicao].Editora)
+      PularLinhas(3)
+      escreval("Livro cadastrado com sucesso!!")
+      escreval("")
+      escreval("")
+      escreva("Cadastrar novo livro (S) sim ou (N) Não: ")
+      leia(CadastroNovoLivro)
+   ate (CadastroNovoLivro <> "S")
+fimprocedimento
+
+
+//LISTARLIVROS
+procedimento ListarLivros()
+var
+   i: inteiro
+inicio
+   limpatela()
+   Cabecalho()
+   PularLinhas(3)
+   escreval("                  |     LISTA DE LIVROS     |")
+   PularLinhas(3)
+   para i de 1 ate posicao faca
+      escreval(livros[i].CodigoLivro)
+      escreval(livros[i].Titulo)
+      escreval(livros[i].Autor)
+      escreval(livros[i].Ano)
+      escreval(livros[i].Genero)
+      escreval(livros[i].Editora)
+      escreval("")
+   fimpara
+fimprocedimento
+
+//CONSULTAR
+procedimento ConsultarLivro()
+var
+   CodigoLivroInformado: caractere
+   PosicaoLivro: inteiro
+   enter : logico
+   Cabecalho: logico
+
+inicio
+
+   limpatela()
+   Cabecalho()
+   escreva("Informe o código do livro: ")
+   leia(CodigoLivroInformado)
+   PosicaoLivro := LivroJaExiste(CodigoLivroInformado)
+   se (PosicaoLivro > 0) entao
+      limpatela()
+      escreval("                  |        LIVRO       |")
+      PularLinhas(3)
+      escreval("Código do Livro: ",livros[PosicaoLivro].CodigoLivro)
+      escreval("Título: ",livros[PosicaoLivro].Titulo)
+      escreval("Autor: ",livros[PosicaoLivro].Autor)
+      escreval("Ano de Lançamento: ",livros[PosicaoLivro].Ano)
+      escreval("Gênero: ",livros[PosicaoLivro].Genero)
+      escreval("Editora: ",livros[PosicaoLivro].Editora)
+   senao
+      escreval("")
+      escreva("ESSE LIVRO NÃO EXISTE!")
+      escreval("")
+      leia (enter)
+   fimse
+fimprocedimento
+
+//ALTERAR
+
+procedimento AlterarLivro()
+var
+   CodigoInformado: caractere
+   PosicaoLivro: inteiro
+   SouN: caractere
+inicio
+   limpatela()
+   Cabecalho()
+   escreva("Informe o código do livro: ")
+   leia(CodigoInformado)
+   PosicaoLivro := LivroJaExiste(CodigoInformado)
+
+   se (PosicaoLivro > 0) entao
+      limpatela()
+      PularLinhas(3)
+      escreval("                   |   DADOS DO LIVRO   |")
+      PularLinhas(3)
+      escreval(livros[PosicaoLivro].CodigoLivro)
+      escreval(livros[PosicaoLivro].Titulo)
+      escreval(livros[PosicaoLivro].Autor)
+      escreval(livros[PosicaoLivro].Ano)
+      escreval(livros[PosicaoLivro].Genero)
+      escreval(livros[PosicaoLivro].Editora)
+      escreva("Deseja mudar os Dados do livro (S) = sim | (N) = Não? ")
+      leia(SouN)
+      se (SouN = "S") entao
+         escreva("Informe novo título: ")
+         leia(livros[PosicaoLivro].Titulo)
+         escreva("Informe novo autor: ")
+         leia(livros[PosicaoLivro].Autor)
+         escreva("Informe novo ano de publicação: ")
+         leia(livros[PosicaoLivro].Ano)
+         escreva("Informe novo genero: ")
+         leia(livros[PosicaoLivro].Genero)
+         escreva("Informe nova editora: ")
+         leia(livros[PosicaoLivro].Editora)
+      fimse
+   senao
+      escreval("")
+      escreva("ESSE LIVRO NÃO EXISTE!")
+   fimse
+fimprocedimento
+
+//LIMPAR DADOS DO LIVRO
+
+procedimento LimparDados(PosicaoLivro: inteiro)
+inicio
+   livros[PosicaoLivro].CodigoLivro := ""
+   livros[PosicaoLivro].Titulo := ""
+   livros[PosicaoLivro].Autor := ""
+   livros[PosicaoLivro].Ano := ""
+   livros[PosicaoLivro].Genero := ""
+   livros[PosicaoLivro].Editora := ""
+fimprocedimento
+
+//EXCLUIR LIVRO
+
+procedimento ExcluirLivro()
+var
+   CodigoInformado: caractere
+   PosicaoLivro: inteiro
+   SouN: caractere
+inicio
+   limpatela()
+   Cabecalho()
+   PularLinhas(3)
+   escreva("Informe o código do livro: ")
+   leia(CodigoInformado)
+   PosicaoLivro := LivroJaExiste(CodigoInformado)
+
+   se (PosicaoLivro > 0) entao
+      limpatela()
+      escreval("                   |    EXCLUIR LIVRO   |")
+      PularLinhas(3)
+      escreval(livros[PosicaoLivro].CodigoLivro)
+      escreval(livros[PosicaoLivro].Titulo)
+      escreval(livros[PosicaoLivro].Autor)
+      escreval(livros[PosicaoLivro].Ano)
+      escreval(livros[PosicaoLivro].Genero)
+      escreval(livros[PosicaoLivro].Editora)
+      escreval("")
+      escreva("Excluir o livro ( S = sim | N = Não )? ")
+      leia(SouN)
+
+      se (SouN = "S") entao
+         para i de PosicaoLivro ate posicao-1 faca
+            livros[i] := livros[i+1]
+         fimpara
+
+         LimparDados(posicao)
+         posicao := posicao - 1
+         escreval("")
+         escreva("Livro excluído com sucesso!")
+         escreval("")
+      fimse
+   senao
+      escreval("")
+      escreva("Livro não Encontrado.")
+      escreval("")
+   fimse
+fimprocedimento
+
+
+inicio
+   posicao := 0
+   repita
+      limpatela()
+      Cabecalho()
+      escreval("          |    Escolha a opção : |")
+      PularLinhas(3)
+      escreval("1.        |    CADASTRAR LIVRO   |")
+      escreval("")
+      escreval("")
+      escreval("2.        |    LISTAR LIVROS     |")
+      escreval("")
+      escreval("")
+      escreval("3.        |    CONSULTAR LIVROS  |")
+      escreval("")
+      escreval("")
+      escreval("4.        |    ALTERAR LIVROS    |")
+      escreval("")
+      escreval("")
+      escreval("5.        |     EXCLUIR LIVRO    |")
+      escreval("")
+      escreval(" ")
+      escreval("6.        |     SAIR             |")
+      escreval("")
+      escreva("Opção: ")
+      leia(opcao)
+      escolha(opcao)
+      caso 1
+         CadastrarLivro()
+      caso 2
+         ListarLivros()
+      caso 3
+         ConsultarLivro()
+      caso 4
+         AlterarLivro()
+      caso 5
+         ExcluirLivro()
+      caso 6
+      outrocaso
+         escreval("Opção inválida")
+      fimescolha
+      escreval("")
+      escreval("Pressione ENTER para continuar")
+      leia(enter)
+   ate opcao = 6
+
+
+fimalgoritmo
